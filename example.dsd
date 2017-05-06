@@ -1,0 +1,257 @@
+# example.dsd
+#
+# This file contains a "DSD Message." DSD stands for "Dynamic Structured Data."
+# It is a specification for messages that look a little like JSON, but have
+# comments and a few features that makes it slightly easier to parse on small
+# (8-bit) CPUs. But don't worry about that right now. This document is meant
+# to give you the "flavour" of DSD without weighing you down with specifics.
+
+# The first thing you'll notice about DSD is that (like JSON) virtually every
+# DSD message you'll likely see is a dictionary (pretty much the same thing
+# as what JSON calls an "object.") This is because DSD messages, like JSON
+# texts are frequently used to communicate "structured data." Dictionaries
+# in DSD start with the open-curly-brace character ({) and end with the
+# close-curly-brace character (}).
+
+{
+  # Now let's add a key-value entry to the dictionary. Here we're adding the
+  # "revision" entry. Like JSON, our entry keys are strings of characters
+  # surrounded by double quotes. The value of this dictionary entry is the
+  # integer 55.
+
+  "revision" = 55
+
+  # Or for people who prefer hexadecimal integers:
+
+  "magic number" = $B1
+
+  # Now let's add a floating point number. In JSON, floats and ints are both
+  # of type "number." Not so with DSD.
+
+  "percent complete" = 87.95
+
+  # Note that key values can be any valid string. They're enclosed in double
+  # quotes so it's not like we'll think the space is anything other than just
+  # another character in a dictionary entry name.
+
+  # You might also notice there's no comma between the "revision" and "percent
+  # complete" entries; DSD syntax is defined so there's no ambiguity about
+  # where one token ends and another begins so commas are superfluous.
+
+  # Here are a few more numbers, including a couple in scientific notation
+
+  "a negative floating point number" = -2.17
+  "for science people" = 6.02E23
+  "physicists probably recognize this one" = -1.602E-19
+
+  # Booleans are another type in DSD. The string literal "TRUE" means true and
+  # the string literal "FALSE" means (you guessed it) false. The string
+  # literals "TRUE" and "FALSE" are case-insensitive, however. Things
+  # that don't mean false: the string "false", 0, no, NEIN, xFF.
+
+  "in process" = *TRUE
+  "complete" = *FALSE
+  "booleans in DSD are case insensitive" = *TrUe
+
+  # DSD defines the "Undefined Type" and uses the literal string "NIL" to
+  # denote it. In this example, we're saying the the value for "next step"
+  # is NIL:
+
+  "next step" = *NIL
+
+  # Okay. Let's look at some strings. There are two types of strings: text and
+  # binary. Text strings are just characters inside double quotes.
+
+  "message" = "This is a \"super\" message."
+  "other message" = "# comments don't work in strings."
+  "still another message" = "Hey, did you know that DSD strings can have
+newlines embedded in them? It's TRUE!"
+
+  # Three things you may have guessed: If you want to create a string with a
+  # double-quote inside it, you use a backslash (\") quote digraph so the
+  # parser doesn't think it's at the end of the string. The comment
+  # character (#) doesn't do anything inside a string. The second string
+  # defined above contains all the characters you see there; it's not a
+  # comment. Lastly, characters that are in strings are IN strings, it doesn't
+  # matter if that character is a tab, a newline or a carriage return. This
+  # lets us do things like this:
+
+  "html file" = "<!DOCTYPE html>
+<html>
+  <body>
+    <!-- Escape double-quotes in DSD by doubling them  -->
+    <!-- Hash marks inside DSD strings aren't comments -->
+    <p class=\"comment\"><a href=\"#comment1\">Comment 1</a>: I'm a comment</p>
+  </body>
+</html>"
+
+  # Binary strings are sequences of octets represented in BASE64 or BASE16.
+  # BASE64 binary strings are delimited with single quotes, like so:
+
+  "some binary data" = 'dlYI5FmUUZ+GIB219OUtzw=='
+  "same binary data" = (76 56 08 E4 59 94 51 9F 86 20 1D B5 F4 E5 2D CF)
+  "binary data, part two" = 'd lYI5F    mUUZ+ GIB219O U tzw = ='
+
+  # That last example is intended to show you that whitespace inside a binary
+  # BASE64 string is ignored. Actually everything that's not a valid BASE64
+  # character is ignored, so this string encodes the same sequence of octets
+  # as the three strings above. Please don't ever do this, however.
+
+  "binary data, part deux" = 'd?lYI5F????mUUZ+?GIB219O#U"tzw}=:='
+
+  # Note that we embedded a hash character in this binary string. It also
+  # doesn't imply you're starting a comment. Comments DO work inside base16
+  # binary strings so we can do things like this:
+
+  "remember those old hexedit programs?" = (
+    c1 b9 ba 79 b7 3e a3 8f 64 a6 da 2f 54 42 e1 d3   # ...y.>..d../TB..
+    6d 59 2d cc 52 84 c9 ed 25 65 47 6b f4 bf bd 45   # mY-.R...%eGk...E
+    67 a1 c6 37 67 38 4d f1 0e ef 90 94 ae 56 78 88   # g..7g8M......Vx.
+    2e cd 7f fe d2 6d e7 4b 20 b1 7c 3f ad af fd 36   # .....m.K .|?...6
+   x43 ed 27 76 1b 27 07 43 4f a5 dc 4d ed 99 22 04   # c.'v.'.CO..M..".
+    )
+
+  # Also, the hex digits inside a base16 binary string can use upper or lower
+  # case letters and *MAY* prefix the hex digits with x's. It's okay to prefix
+  # a base16 digit with x's because everything that's not a valid digit or
+  # comment character is ignored.
+
+  "surprisingly valid base16 binary string" = (&&9Dxt22)   # 9D 22
+
+  # DSD also does arrays, and they behave sort of like you expect
+
+  "i am an array" = [ nil true false 0 3.14 "string" 'rmqN' ( 9d 22 ) ]
+
+  # And you can include dictionaries inside dictionaries
+
+  "yet another dictionary" = {
+    "one" = 1
+    "two" = 2
+  }
+}
+
+# Okay. This is where things get weird. DSD messages are assumed to be arrays.
+# So when you parse a bit of text, it's as if you put square braces ([) & (])
+# around it. So it's perfectly valid to start up with another dictionary after
+# you finish the previous one:
+
+{
+  "success" = false
+  "error" = "The file was not found"
+  "errno" = 2
+}
+
+# You can even just throw down some basic types. It's okay.
+
+"This is a ""string""."
+42
+( DE AD BE EF )
+
+# And now things get really weird.
+#
+# DSD is a transfer syntax that does not have a concretized type system.
+# This is unlike JSON which inherits JavaScripts types. JSON integers are
+# limited to numbers that can be represented by 32 bits. In DSD we don't
+# care how many bits your integers are because it's a transfer syntax, not
+# a serialization format. (Technically DSD is an abstract transfer syntax and
+# DSD/TEXT is the concretized transfer syntax described here.) DSD/TEXT
+# describes the rules for identifying the beginning and end of a lexical
+# element and rules for what it is supposed to mean.
+#
+# If you're on a system that only supports 16 bit integers in hardware, you
+# *may* only want to receive numbers between -32768 and 65535 (inclusive.)
+# If you're on a 32 bit system, you may only want to receive integers
+# representable with 32 bits.
+#
+# As a message receiver, you can't force a sender to only send you values you
+# can consume. But as a message sender, you can tell the receiver what
+# concretized type system you intend to use. In DSD, you do this with type
+# system annotations, and they look like this:
+
+@t
+
+# This is the type system annotation for the "tiny" type system. If you're a
+# message sender and you put this in the stream, it means you promise to only
+# send messages that contain integers representable with 8 bit integers, 16
+# bit IEEE 754-2008 binary floating point number and strings that are no more
+# than 255 octets long.
+#
+# Tiny is the DEFAULT concretized type system. If you encode a value that
+# exceeds the TINY limitations without signaling a different type system
+# (by using the @s, @m or @u tokens) you'll create an invalid DSD message.
+#
+# The tiny concretized type system is intended to be used on extremely
+# constrained 8-bit microcontrollers, much like the ones embedded in IoT
+# "smart tags" that are powered intermittently via RF transmission.
+#
+# Here's an example:
+
+{
+  "integer minimum" = -128
+  "integer maximum" =  127
+  "float minimum" = -5.96046E−8
+  "float maximum" = 6.5504E4
+}
+
+@s
+
+# This is the type system annotation for the "small" type system. This means
+# you'll only send messages that are representable by 16 bit integers, 32 bit
+# IEEE 754-2008 decimal floating point numbers and strings that are no more
+# than 65535 octets long.
+#
+# The small concretized type system is intended for use by "beefy" 8-bit
+# microcontrollers often found in temperature sensors or 1980's home computers.
+# (yes, parsing DSD messages on Commodore 64s and Apple ][s is a documented
+# use case.)
+
+@m
+
+# This is the type system annotation for the "medium" type system. It means
+# you promise to only send messages whose integers are representable in 32
+# bits, floats will be limited to 64 bit IEEE 754-2008 decimals and strings
+# are shorter than 2^32 octets.
+#
+# The medium concretized type system is intended for netbooks & moble phones
+# powered by 32-bit ARM CPUs.
+
+@l
+
+# This is the type system annotation for the "large" type system. It's limits
+# are 64 bit ints, 128 bit IEEE 754-2008 decimals and 2^44 octet strings.
+#
+# The large concretized type system is intended for modern 64-bit servers.
+
+@u
+
+# This is the "unlimited" type system. When a sender sends this, it means they
+# can't guarantee values they send will have any limitations. Hopefully the
+# receiver will have an arbitrary multi-precision library handy and lots of
+# memory.
+
+# Remember, type annotations do not force message receivers to accept messages
+# that use a particular level of concretized type system. They are used by
+# senders to alert message receivers the sender promises to constrain values
+# sent to those represented by the type system the message is annotated with.
+#
+# DSD does not specify what should happen when a sender annotates a message
+# with a type system contract it can't honor. Maybe it should send an error
+# response? Maybe it should just try to decode messages as best it can? Maybe
+# it could store the message and forward it to a system that can decode it?
+# There's no one right thing to do which is why DSD itself doesn't define
+# processing expectations for this situation. If someone tells you they might
+# send you values you can't parse, you're still pretty much on your own as to
+# what you decide to do about it.
+#
+# Type system annotations can appear anywhere in a message, but users are
+# encouraged to add them before they send integers, floating point numbers or
+# strings.
+#
+# One last note... about UTF-8... DSD is encoding-independent (well... okay...
+# it assumes ASCII. But as long as your encoding maps code points 32 through
+# 127 as being identical to ASCII, DSD doesn't care. The only valid place for
+# non-ascii characters to appear are inside strings. As long as your encoding
+# can't include a code-point that uses character 0x22 (the double quote
+# character.) It turns out that both UTF-8 and Shift-JIS work fine; neither
+# of these systems will produce multi-octet code-points that include the
+# double quote (") character.

@@ -28,7 +28,7 @@ https://tools.ietf.org/html/draft-ietf-vwrap-type-system-00. For the
 truly masochistic, details of the VWRAP effort are available at
 http://meadhbh.hamrick.rocks/home/technical-sh-t/what-is-vwrap.
 
-## DSD In A Nutshell
+## DSD In 120 Seconds
 
 DSD defines a syntax for protocol messages between systems. In this
 sense it's sort of like JSON or XML (though there is a Binary transfer
@@ -101,6 +101,9 @@ the XML transfer syntax:
       <integer>2</integer>
     </map>
 
+If you want to see a beefier example of a DSD file (that includes
+comments, see [example.dsd](example.dsd).
+
 If you're wondering why the world needed another format that looks
 like JSON, the answer is obviously "all the other ones are wrong."
 Really what happened is at Linden Lab there were significant
@@ -114,5 +117,7 @@ all be deserialized into byte identical data structures.
 The DSD Text format itslef is slightly easier to parse on 8-bit
 microcontrollers used in related projects and it natively supports
 comments.
+
+
 
 ## DSD/Text Lexxer Theory of Operation
