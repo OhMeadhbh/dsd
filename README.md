@@ -19,7 +19,10 @@ Binary transfer syntxes. (Users of the XML transfer syntax can simply
 use their favourite XML parser.)
 
 DSD is defined independently of this package, but a copy of it's
-official definition is included in the file dsd-info.txt.
+official definition is included in the file
+[dsd-info.txt](dsd-info.txt). For a more literate introduction to the
+problem(s) DSD was trying to solve, see [Goldilocks and the 11
+Parsers](goldilocks.txt).
 
 ## DSD In A Nutshell
 
@@ -93,5 +96,19 @@ the XML transfer syntax:
       <key>version</key>
       <integer>2</integer>
     </map>
+
+If you're wondering why the world needed another format that looks
+like JSON, the answer is obviously "all the other ones are wrong."
+Really what happened is at Linden Lab there were significant
+disagreements over whether protocol should be carried over ProtoBufs,
+JSON, XML or a custom Binary format. The one abstract type system /
+multiple concrete transfer syntaxes separation was created so our
+distributed application could be transfer-syntax agnostic. It doesn't
+matter which transfer syntax you use (Text, Binary or XML), they can
+all be deserialized into byte identical data structures.
+
+The DSD Text format itslef is slightly easier to parse on 8-bit
+microcontrollers used in related projects and it natively supports
+comments.
 
 ## DSD/Text Lexxer Theory of Operation

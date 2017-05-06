@@ -1,0 +1,129 @@
+Goldilocks and the 11 Parsers
+
+Once upon  a time  there was  a programmer,  lost in  the requirements
+specification.
+
+"If only  I had  a standard parser  to communicate  structured dynamic
+data!" she said.
+
+As chance would  have it, hidden behind a footnote  in subsection 4 of
+paragraph 14, she spied ITU X.680 and X.690.
+
+"Oh!" she  exclaimed, "I am saved!  For the system described  in these
+documents  provides near  infinite flexibility  to represent  even the
+smallest semantic nuance." And off she  went down to the river to code
+an implementation.
+
+Weeks   later   she   emerged   from   the   forest   disheveled   and
+half-starved. "ASN.1 tricked me!" she  complained, "What I thought was
+flexibility was  merely underspecification wrought from  the inability
+of  a   technical  committee  to  find   agreement  on  implementation
+details. If I continue on this path I will be forced to decide between
+adherence to  an often-vague  specification or an  implementation with
+decent performance. Most likely I will  code only to the subset of the
+specification I  intend to  use leading  to long-term  brittleness and
+possibly security vulnerabilities based on incomplete understanding of
+a confusing  specification." In reward  for her understanding  she was
+named as a director of the IETF Applications Area.
+
+Two years later the programmer returned to her specification, tired of
+mediating  technical disputes  between commercial  interests who  were
+attempting  to find  competitive advantage  by scuttling  each other's
+proposals   while   simultaneously    advancing   the   bare   minimum
+specification required for a viable protocol.
+
+"Clearly  XML  is  the  way  to  go,"  she  said,  "with  its  mix  of
+representational flexibility and optional  enhancements." And away she
+did  go, coding  real-time  applications usign  XML  to transfer  data
+between    loosely    coupled   manufacturing-floor    process-control
+equipment. Everything was fine until it came time to integrate a newer
+version  of the  Smerxerces XML  parser that  referenced a  version of
+libboost that did  not run on their MIPS-based  process control system
+due to a compiler bug.
+
+After reading the code for Smerxerces, trying to understand why it was
+coded to require behavior specific to a particular version of libboost
+she said  to herself, "Most of  my requirements for data  transfer are
+relatively simple, not  requiring the expressive power  of XML. What's
+more, we were forced to reduce the requirement that XML input be 'well
+formed'  instead  of  'valid'   because  XML  components  produced  by
+non-coordinating,  loosely  coupled data  systems  do  not test  their
+components with  each other and  frequently reference schemas  or DTDs
+which are unavailable to the public.
+
+In reward  for her new-found  enlightenment she  was named to  the ACM
+Publications Board,  a position  of great  respect and  moderate power
+within her community.
+
+After two years of defending the  ACM's policy to retain it's paywall,
+she quietly resigned to volunteer with the Internet Archive and EFF to
+atone for her mercantile sins. One day at the Internet Archive she saw
+a  web  developer  cursing  incompatibilities  between  browsers  with
+respect to JSON parsing.
+
+"Eureka!" she exclaimed, "Clearly JSON is the transfer syntax of a new
+generation!"
+
+"All hail JSON!" she said to no-one in particular, "It eschews schema,
+working only as a transfer syntax allowing higher layers of the system
+to make decisions  regarding missing or extra data in  a protocol data
+unit!"
+
+She turned this new-found discovery  into a well-regarded TED talk and
+was rewarded by being named AOL's Internet of Things Architect.
+
+As  the IoT  Architect she  encouraged manufacturers  of 4  and 8  bit
+sensors to  produce PDUs using JSON.  When visiting a vendor  site she
+happened upon a Pacific Coast Mountain Octopus crafting a small parser
+to run on an 8 bit micro-controller powered only by the RF-field of an
+NFC card reader.
+
+"Above.  Around. Within."  said the  Octopus, "Context  and regarding;
+limits and failure." But alas, she  did not speak Octopus. The octopus
+then  flashed  a  series  of   patterns  on  its  skin,  communicating
+sub-consciously using the language of  dreams. But of course humans do
+not listen to their dreams during the  day, so she had to wait for REM
+sleep for her  brain to attempt to convert the  flashing patterns into
+long-term memories.
+
+In her dreams  the Octopus said "Your appreciation  for the simplicity
+of  JSON has  blinded  you  to the  type  semantics  embedded in  it's
+specification.   We   are   facing   issues  because   there   is   no
+sub-specification in  JSON to  allow a consumer  to identify  its type
+semantics. JSON does a good job of delimiting protocol data units, but
+fails completely to  handle the case where a consumer  supports only 8
+or 16 bit integers, or 64 bit integers for that matter."
+
+Because it was a dream, the  Octopus then changed into David Bowie and
+threw minnows at her.
+
+Changing  back into  an Octopus,  it continued,  "The transfer  syntax
+itself  doesn't   describe  the  protocol  interactions   required  to
+establish the  type behavior of the  consumer, but it can  signal that
+the data provider 'promises' to use  values within a given range. This
+doesn't completely  solve the problem,  but it allows the  consumer to
+decide before-hand what to do when it receives data it may not be able
+to semantically consume."
+
+And with  this, the programmer woke,  with near-mystical understanding
+of the Octopus' message.
+
+Like Goldilocks she had wandered into the forest and found ASN.1 to be
+too heavy,  weighted down with  explicit type semantics.  XML eschewed
+type semantics,  but it's extensibility allowed  producers to identify
+semantic intent in documents  or document schemas, requiring consumers
+of XML to check both locations.  XML too, was too heavy. JSON eschewed
+schema, making it "lightweight." But it was too lightweight in that it
+ignored type semantics of the consumer.
+
+And that is when the programmer  devised a fourth parser, one with the
+simplicity of  JSON, but without  JSON's embedded type  semantics. She
+later hired 11 bears as interns  to code the new parser which consumed
+data that looked suspiciously like JSON, but added support for in-band
+directives APDU producers use to  communicate to the consumer the type
+semantics they intend to use.
+
+And they all lived happily ever after.
+
+Until someone pointed out that JSON doesn't support comments and since
+they were changing things, maybe add support for comments?
