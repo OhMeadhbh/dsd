@@ -22,7 +22,11 @@ DSD is defined independently of this package, but a copy of it's
 official definition is included in the file
 [dsd-info.txt](dsd-info.txt). For a more literate introduction to the
 problem(s) DSD was trying to solve, see [Goldilocks and the 11
-Parsers](goldilocks.txt).
+Parsers](goldilocks.txt). DSD is based on the Virtual Worlds Region
+Agent Protocol Abstract (VWRAP) Type System defined in
+https://tools.ietf.org/html/draft-ietf-vwrap-type-system-00. For the
+truly masochistic, details of the VWRAP effort are available at
+http://meadhbh.hamrick.rocks/home/technical-sh-t/what-is-vwrap.
 
 ## DSD In A Nutshell
 
