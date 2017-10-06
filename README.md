@@ -69,18 +69,17 @@ software.
 
 Since you're still reading this section, it probably means you're
 interested in more details. Here's an intersting one: the message
-above can be encoded using DSD/Binary into these 82 hexadecimal
+above can be encoded using DSD/Binary into these 78 hexadecimal
 octets:
 
-    03 18 4F 10 08 75 73 65 72 6e 61 6d 65 10 09 4f
-    68 4d 65 61 64 68 62 68 10 06 73 65 63 72 65 74
-    10 14 b6 07 54 c4 ea 1a fa 24 20 1e af 02 4c 13
-    0d 94 cc 58 01 65 10 09 61 6c 67 6f 72 69 74 68
-    6d 10 04 73 68 61 31 10 07 76 65 72 73 69 6f 6e
-    08 02
+    02 68 42 47 75 73 65 72 6e 61 6d 65 48 00 4f 68
+    4d 65 61 64 68 62 68 45 73 65 63 72 65 74 48 0B
+    b6 07 54 c4 ea 1a fa 24 20 1e af 02 4c 13 0d 94
+    cc 58 01 65 48 00 61 6c 67 6f 72 69 74 68 6d 43
+    73 68 61 31 46 76 65 72 73 69 6f 6e 10 02
 
 It's interesting to note that the Binary encoding seldom makes
-messages shorter, but it often makes them easier to parse.
+messages much shorter, but it often makes them easier to parse.
 
 If you're in an environment which uses XML extensively, you can use
 the XML transfer syntax:
