@@ -120,7 +120,7 @@ newlines embedded in them? It's TRUE!"
 
   # DSD also does arrays, and they behave sort of like you expect
 
-  "i am an array" = [ nil true false 0 3.14 "string" 'rmqN' ( 9d 22 ) ]
+  "i am an array" = [ *nil *true *false 0 3.14 "string" 'rmqN' ( 9d 22 ) ]
 
   # And you can include dictionaries inside dictionaries
 
