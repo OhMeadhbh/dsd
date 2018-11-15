@@ -92,7 +92,7 @@ newlines embedded in them? It's TRUE!"
   "same binary data" = (76 56 08 E4 59 94 51 9F 86 20 1D B5 F4 E5 2D CF)
   "binary data, part two" = 'd lYI5F    mUUZ+ GIB219O U tzw = ='
 
-  # That last example is intended to show you that whitespace inside a binary
+  # That last example is intended to show you that white-space inside a binary
   # BASE64 string is ignored. Actually everything that's not a valid BASE64
   # character is ignored, so this string encodes the same sequence of octets
   # as the three strings above. Please don't ever do this, however.
@@ -150,7 +150,7 @@ newlines embedded in them? It's TRUE!"
 # And now things get really weird.
 #
 # DSD is a transfer syntax that does not have a concretized type system.
-# This is unlike JSON which inherits JavaScripts types. JSON integers are
+# This is unlike JSON which inherits JavaScript's types. JSON integers are
 # limited to numbers that can be represented by 32 bits. In DSD we don't
 # care how many bits your integers are because it's a transfer syntax, not
 # a serialization format. (Technically DSD is an abstract transfer syntax and
@@ -161,7 +161,7 @@ newlines embedded in them? It's TRUE!"
 # If you're on a system that only supports 16 bit integers in hardware, you
 # *may* only want to receive numbers between -32768 and 65535 (inclusive.)
 # If you're on a 32 bit system, you may only want to receive integers
-# representable with 32 bits.
+# represent-able with 32 bits.
 #
 # As a message receiver, you can't force a sender to only send you values you
 # can consume. But as a message sender, you can tell the receiver what
@@ -172,7 +172,7 @@ newlines embedded in them? It's TRUE!"
 
 # This is the type system annotation for the "tiny" type system. If you're a
 # message sender and you put this in the stream, it means you promise to only
-# send messages that contain integers representable with 8 bit integers, 16
+# send messages that contain integers represent-able with 8 bit integers, 16
 # bit IEEE 754-2008 binary floating point number and strings that are no more
 # than 255 octets long.
 #
@@ -181,7 +181,7 @@ newlines embedded in them? It's TRUE!"
 # (by using the @s, @m or @u tokens) you'll create an invalid DSD message.
 #
 # The tiny concretized type system is intended to be used on extremely
-# constrained 8-bit microcontrollers, much like the ones embedded in IoT
+# constrained 8-bit micro-controllers, much like the ones embedded in IoT
 # "smart tags" that are powered intermittently via RF transmission.
 #
 # Here's an example:
@@ -196,23 +196,23 @@ newlines embedded in them? It's TRUE!"
 @s
 
 # This is the type system annotation for the "small" type system. This means
-# you'll only send messages that are representable by 16 bit integers, 32 bit
+# you'll only send messages that are represent-able by 16 bit integers, 32 bit
 # IEEE 754-2008 decimal floating point numbers and strings that are no more
 # than 65535 octets long.
 #
 # The small concretized type system is intended for use by "beefy" 8-bit
-# microcontrollers often found in temperature sensors or 1980's home computers.
+# micro-controllers often found in temperature sensors or 1980's home computers.
 # (yes, parsing DSD messages on Commodore 64s and Apple ][s is a documented
 # use case.)
 
 @m
 
 # This is the type system annotation for the "medium" type system. It means
-# you promise to only send messages whose integers are representable in 32
+# you promise to only send messages whose integers are represent-able in 32
 # bits, floats will be limited to 64 bit IEEE 754-2008 decimals and strings
 # are shorter than 2^32 octets.
 #
-# The medium concretized type system is intended for netbooks & moble phones
+# The medium concretized type system is intended for net-books & mobile phones
 # powered by 32-bit ARM CPUs.
 
 @l

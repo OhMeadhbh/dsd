@@ -12,10 +12,10 @@ is, by itself type-system neutral (DSD does not define how many bits
 encode an integer or how floating point values are laid out in
 memory.) However, DSD can carry an annotation that the creator of a
 message assumes type details useful for 8-bit sensors, 32-bit
-microcontrollers and 64-bit server systems.
+micro-controllers and 64-bit server systems.
 
 This package provides a Lexxer and example parser for the Text and
-Binary transfer syntxes. (Users of the XML transfer syntax can simply
+Binary transfer syntaxes. (Users of the XML transfer syntax can simply
 use their favourite XML parser.)
 
 DSD is defined independently of this package, but a copy of it's
@@ -32,7 +32,7 @@ http://meadhbh.hamrick.rocks/home/technical-sh-t/what-is-vwrap.
 
 DSD defines a syntax for protocol messages between systems. In this
 sense it's sort of like JSON or XML (though there is a Binary transfer
-syntax that's a little more efficent to parse.) Here's an example of a
+syntax that's a little more efficient to parse.) Here's an example of a
 typical DSD message:
 
     # Login Authentication w/ No Iteration Count or Salt
@@ -51,11 +51,11 @@ From this example you can probably deduce a couple things:
 
 * The Hash mark starts a comment
 
-* Text strings are delimted by double quotes (")
+* Text strings are delimited by double quotes (")
 
 * Maps are bounded by the '{' and '}' characters
 
-* Map Keys and Map Values are linked with the euals character (=)
+* Map Keys and Map Values are linked with the equals character (=)
 
 * You don't need to use commas (because DSD/Text is "self-delimiting")
 
@@ -68,7 +68,7 @@ learned enough for practical use of DSD as a syntax and this
 software.
 
 Since you're still reading this section, it probably means you're
-interested in more details. Here's an intersting one: the message
+interested in more details. Here's an interesting one: the message
 above can be encoded using DSD/Binary into these 78 hexadecimal
 octets:
 
@@ -111,10 +111,10 @@ JSON, XML or a custom Binary format. The one abstract type system /
 multiple concrete transfer syntaxes separation was created so our
 distributed application could be transfer-syntax agnostic. It doesn't
 matter which transfer syntax you use (Text, Binary or XML), they can
-all be deserialized into byte identical data structures.
+all be de-serialized into byte identical data structures.
 
-The DSD Text format itslef is slightly easier to parse on 8-bit
-microcontrollers used in related projects and it natively supports
+The DSD Text format itself is slightly easier to parse on 8-bit
+micro-controllers used in related projects and it natively supports
 comments.
 
 
