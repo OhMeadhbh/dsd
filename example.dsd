@@ -34,8 +34,8 @@
   # quotes so it's not like we'll think the space is anything other than just
   # another character in a dictionary entry name.
 
-  # You might also notice there's no comma between the "revision" and "percent
-  # complete" entries; DSD syntax is defined so there's no ambiguity about
+  # You might also notice there's no comma between the "revision" and "magic
+  # number" entries; DSD syntax is defined so there's no ambiguity about
   # where one token ends and another begins so commas are superfluous.
 
   # Here are a few more numbers, including a couple in scientific notation
