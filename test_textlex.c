@@ -56,10 +56,10 @@ int main( int argc, char * argv [] ) {
   
   printf( "; BEGIN TESTS\n" );
 
-  printf( "; SIZE OF CONTEXT: %d\n", sizeof( tTextLexContext ) );
+  printf( "; SIZE OF CONTEXT: %zu\n", sizeof( tTextLexContext ) );
   
   for( i = 0, ptr = fixtures[ i ]; (tTextLexBuffer *) NULL != ptr; i++, ptr = fixtures[ i ] ) {
-    printf( "; TEST %3d (%03d) ", i, strlen( ptr ) );
+    printf( "; TEST %3d (%03zu) ", i, strlen( ptr ) );
     pretty_print( ptr );
     printf( "\n" );
 
