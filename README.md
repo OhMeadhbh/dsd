@@ -117,6 +117,134 @@ The DSD Text format itself is slightly easier to parse on 8-bit
 micro-controllers used in related projects and it natively supports
 comments.
 
-
-
 ## DSD/Text Lexxer Theory of Operation
+
+The DSD/Text Lexxer is implemented in a single C99 source file:
+[textlex.c](textlex.c). I tried to make the code easy to follow, but to
+use the lexxer all you should have to look at is the header file:
+[textlex.h](textlex.h). To compile the file, all you should need to do
+is this: 
+
+    cc -o textlex.o textlex.c
+
+You don't need to specify an include directory with the -I command line
+option (unless you move the header file.) The textlex.c file isn't
+dependent on external libraries, so you shouldn't need to reference any
+additional libraries with -l.
+
+This file only includes the code for the textlex_init, textlex_update,
+textlex_final and textlex_default_overflow functions. It does not
+compile to an executable program.
+
+To compile an example program, use the Make utility to make the
+[test_textlex.c](test_textlex.c) program. (See the [Makefile](Makefile)
+for details.)
+
+An instance of the lexxer is initialized with the textlex_init()
+function call. This call initializes the state of the lexxer instance
+(which is stored in a tTextLexContext data structure.) You'll also need
+a fixed length buffer to hold parsed values. The textlex_init() function
+returns a success code of tTextLexErr type. If everything is initialized
+correctly, it will return a TEXTLEX_E_NOERR.
+
+Here is an example of initializing a lexxer instance:
+
+    #define BUFFER_SIZE 80
+
+    static tTextLexContext lexxer;
+    static unsigned char buffer[ BUFFER_SIZE ];
+    tTextLexErr error = TEXTLEX_E_NOERR;
+    
+    error = textlex_init( &lexxer, buffer, BUFFER_SIZE );
+
+    if( TEXTLEX_E_NOERR != error ) {
+        printf( "Got Error %d\n", error );
+    }
+
+Now you're ready to start processing some input. The lexxer scans input,
+copying characters into the buffer (potentially unescaping string
+values.) When it reads a complete lexeme, it calls the token callback
+which is referenced in the context data structure.
+
+You need to provide your own token callback. And you should set it
+*AFTER* calling textlex_init() but before calling textlex_update() for
+the first time.
+
+    tTextLexErr _token_callback( tTextLexContext * context, tTextLexCount token ) {
+        printf( "TOKEN %2d %*.*s", token, context->index, context->index, context->buffer );
+        return( TEXTLEX_E_NOERR );
+    }
+    
+    lexxer.token = _token_callback;
+
+The callback defined here does nothing other than print out a number
+associated with the type of item found and its value.
+
+Now let's provide some input:
+
+    unsigned char *input = "@t { \"username\" = \"foo\" \"password\" = \"bar\" }";
+
+    error = textlex_update( &lexxer, input, strlen( input ) );
+
+    if( TEXTLEX_E_NOERR != error ) {
+        printf( "Error %d while calling textlex_update()\n", error );
+    }
+
+In theory, this should cause the _token_callback() function to be called
+9 times with the following token types and values:
+
+    TEXTLEX_T_ANNOTATION  t
+    TEXTLEX_T_MAP_OPEN
+    TEXTLEX_T_STRING      username
+    TEXTLEX_T_EQUALS
+    TEXTLEX_T_STRING      foo
+    TEXTLEX_T_STRING      password
+    TEXTLEX_T_EQUALS
+    TEXTLEX_T_STRING      bar
+    TEXTLEX_T_MAP_CLOSE
+
+From this you should probably figure out that this is not a
+full-featured parser. Your code will need to maintain enough state to
+figure out if the next item you encounter is intended to be a map key or
+a map value. You should also be able to figure out what to do if a map
+key isn't followed by an equals.
+
+But there are some corner cases where the textlex_update() call won't
+be able to tell whether or not you're done with a token. So before you
+finish, call textlex_final().
+
+    error = textlex_final( &lexxer );
+
+If the buffer overflows, the lexxer will call the overflow callback. The
+default callback calls the token callback with a buffer's full of data
+and then continues lexxing. So if you have a buffer that's 16 bytes long
+and the lexxer is trying to parse a string that's 32 bytes long, the
+token will be called twice. First with the first half of the string and
+then with the second half of the string.
+
+This is somewhat bad because it means that the lexxer cannot distinguish
+between the following two input strings (if the buffer is 16 bytes
+long):
+
+    [ "0123456789ABCDEF" "0123456789ABCDEF" ]
+
+and
+
+    [ "0123456789ABCDEF0123456789ABCDEF" ]
+
+One way around this is to dynamically grow the buffer size:
+
+    unsigned int buffer_size = 16;
+    unsigned char * buffer = malloc( buffer_size );
+
+And then when you get an overflow call, you use realloc() to allocate a
+buffer of twice the size:
+
+    tTextLexErr _overflow_callback( tTextLexContext * context ) {
+        buffer_size *= 2;
+        buffer = realloc( buffer, buffer_size );
+        context->size = buffer_size;
+    }
+
+But... it's up to you. Depending on the specific type semantics, you
+might simply want to reject large data units.
