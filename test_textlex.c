@@ -90,7 +90,7 @@ static void pretty_print( unsigned char * string ) {
 #endif
 static tTextLexErr parse_this( unsigned char * string ) {
   tTextLexErr err;
-  unsigned char buffer[ _BUFFER_SIZE ];
+  tTextLexBuffer buffer[ _BUFFER_SIZE ];
   tTextLexContext context;
   
   do {
