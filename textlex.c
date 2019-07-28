@@ -619,6 +619,23 @@ tTextLexErr textlex_default_overflow( tTextLexContext * context ) {
   case TEXTLEX_S_HEX:
     TOKEN( TEXTLEX_T_HEX );
     break;
+
+  case TEXTLEX_S_STRING:
+  case TEXTLEX_S_STRING_ESCAPE:
+    TOKEN( TEXTLEX_T_STRING);
+    break;
+    
+  case TEXTLEX_S_BASE64:
+    TOKEN( TEXTLEX_T_BASE64 );
+    break;
+
+  case TEXTLEX_S_BASE16_START:
+    TOKEN( TEXTLEX_T_HEX );
+    break;
+    
+  case TEXTLEX_S_BASE16_COMMENT:
+    TOKEN( TEXTLEX_T_COMMENT );
+    break;
   }
 
   context->index = 0;
