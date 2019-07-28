@@ -191,16 +191,21 @@ Now let's provide some input:
     }
 
 In theory, this should cause the _token_callback() function to be called
-9 times with the following token types and values:
+14 times with the following token types and values:
 
     TEXTLEX_T_ANNOTATION  t
+    TEXTLEX_T_END
     TEXTLEX_T_MAP_OPEN
     TEXTLEX_T_STRING      username
+    TEXTLEX_T_END
     TEXTLEX_T_EQUALS
     TEXTLEX_T_STRING      foo
+    TEXTLEX_T_END
     TEXTLEX_T_STRING      password
+    TEXTLEX_T_END
     TEXTLEX_T_EQUALS
     TEXTLEX_T_STRING      bar
+    TEXTLEX_T_END
     TEXTLEX_T_MAP_CLOSE
 
 From this you should probably figure out that this is not a
@@ -222,17 +227,15 @@ and the lexxer is trying to parse a string that's 32 bytes long, the
 token will be called twice. First with the first half of the string and
 then with the second half of the string.
 
-This is somewhat bad because it means that the lexxer cannot distinguish
-between the following two input strings (if the buffer is 16 bytes
-long):
+This could be bad if we didn't call the token callback with the
+TEXTLEX_T_END token specified. It tells the callback that a variable
+length data unit is complete. It's used for strings, comments, numbers,
+literals, hex numbers and annotations. You won't get an TEXTLEX_T_END
+call for equals, open and close maps and open and close arrays. These
+tokens are fixed length and a length of 1 is implied.
 
-    [ "0123456789ABCDEF" "0123456789ABCDEF" ]
-
-and
-
-    [ "0123456789ABCDEF0123456789ABCDEF" ]
-
-One way around this is to dynamically grow the buffer size:
+Another way to avoid worrying about the buffer overflow is to dynamically
+grow the buffer size:
 
     unsigned int buffer_size = 16;
     unsigned char * buffer = malloc( buffer_size );
