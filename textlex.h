@@ -56,20 +56,21 @@
 
 /* Macro Definitions : Token Types */
 
-#define TEXTLEX_C_TOKENS         13
-#define TEXTLEX_T_COMMENT         0
-#define TEXTLEX_T_ANNOTATION      1
-#define TEXTLEX_T_LITERAL         2
-#define TEXTLEX_T_INTEGER         3
-#define TEXTLEX_T_FLOAT           4
-#define TEXTLEX_T_HEX             5
-#define TEXTLEX_T_STRING          6
-#define TEXTLEX_T_BASE64          7
-#define TEXTLEX_T_ARRAY_OPEN      8
-#define TEXTLEX_T_ARRAY_CLOSE     9
-#define TEXTLEX_T_MAP_OPEN       10
-#define TEXTLEX_T_MAP_CLOSE      11
-#define TEXTLEX_T_EQUALS         12
+#define TEXTLEX_C_TOKENS         14
+#define TEXTLEX_T_END             0
+#define TEXTLEX_T_COMMENT         1
+#define TEXTLEX_T_ANNOTATION      2
+#define TEXTLEX_T_LITERAL         3
+#define TEXTLEX_T_INTEGER         4
+#define TEXTLEX_T_FLOAT           5
+#define TEXTLEX_T_HEX             6
+#define TEXTLEX_T_STRING          7
+#define TEXTLEX_T_BASE64          8
+#define TEXTLEX_T_ARRAY_OPEN      9
+#define TEXTLEX_T_ARRAY_CLOSE    10
+#define TEXTLEX_T_MAP_OPEN       11
+#define TEXTLEX_T_MAP_CLOSE      12
+#define TEXTLEX_T_EQUALS         13
 
 /* These are the defaults for the types used in the API. If you want to change
 ** them, create a header file named "tltypes.h" that defines your preferred

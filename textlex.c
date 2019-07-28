@@ -92,75 +92,89 @@
 #define NONDEL( t ) case WS: \
   case LF: \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     SET_STATE( TEXTLEX_S_START ); \
     break; \
 \
   case CR: \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     SET_STATE( TEXTLEX_S_EOLLF ); \
     break; \
 \
   case '#': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     SET_STATE( TEXTLEX_S_COMMENT ); \
     break; \
 \
   case '@': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     SET_STATE( TEXTLEX_S_ANNOTATE ); \
     break; \
 \
   case '*': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     SET_STATE( TEXTLEX_S_LITERAL ); \
     break; \
 \
  case '$':      \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     SET_STATE( TEXTLEX_S_HEX ); \
     break; \
 \
   case '"': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     SET_STATE( TEXTLEX_S_STRING ); \
     break; \
 \
   case '\'': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     SET_STATE( TEXTLEX_S_BASE64 ); \
     break; \
 \
   case '(': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     SET_STATE( TEXTLEX_S_BASE16_START ); \
     break; \
 \
   case '[': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     TOKEN( TEXTLEX_T_ARRAY_OPEN ); \
     SET_STATE( TEXTLEX_S_START ); \
     break; \
 \
   case ']': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     TOKEN( TEXTLEX_T_ARRAY_CLOSE ); \
     SET_STATE( TEXTLEX_S_START ); \
     break; \
 \
   case '{': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     TOKEN( TEXTLEX_T_MAP_OPEN ); \
     SET_STATE( TEXTLEX_S_START ); \
     break; \
 \
   case '}': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     TOKEN( TEXTLEX_T_MAP_CLOSE ); \
     SET_STATE( TEXTLEX_S_START ); \
     break; \
 \
   case '=': \
     TOKEN( t ); \
+    TOKEN( TEXTLEX_T_END ); \
     TOKEN( TEXTLEX_T_EQUALS ); \
     SET_STATE( TEXTLEX_S_START ); \
     break;
@@ -290,11 +304,13 @@ tTextLexErr textlex_update( tTextLexContext * context, tTextLexBuffer * data, tT
       switch( current ) {
       case LF:
         TOKEN( TEXTLEX_T_COMMENT );
+        TOKEN( TEXTLEX_T_END );
         SET_STATE( TEXTLEX_S_START );
         break;
         
       case CR:
         TOKEN( TEXTLEX_T_COMMENT );
+        TOKEN( TEXTLEX_T_END );
         SET_STATE( TEXTLEX_S_EOLLF );
         break;
 
@@ -458,6 +474,7 @@ tTextLexErr textlex_update( tTextLexContext * context, tTextLexBuffer * data, tT
 
       case '"':
         TOKEN( TEXTLEX_T_STRING );
+        TOKEN( TEXTLEX_T_END );
         SET_STATE( TEXTLEX_S_START );
         break;
         
@@ -494,6 +511,7 @@ tTextLexErr textlex_update( tTextLexContext * context, tTextLexBuffer * data, tT
 
       case '\'':
         TOKEN( TEXTLEX_T_BASE64 );
+        TOKEN( TEXTLEX_T_END );
         SET_STATE( TEXTLEX_S_START );
         break;
       }
@@ -508,11 +526,13 @@ tTextLexErr textlex_update( tTextLexContext * context, tTextLexBuffer * data, tT
 
       case '#':
         TOKEN( TEXTLEX_T_HEX );
+        TOKEN( TEXTLEX_T_END );
         SET_STATE( TEXTLEX_S_BASE16_COMMENT );
         break;
 
       case ')':
         TOKEN( TEXTLEX_T_HEX );
+        TOKEN( TEXTLEX_T_END );
         SET_STATE( TEXTLEX_S_START );
         break;
       }
@@ -522,11 +542,13 @@ tTextLexErr textlex_update( tTextLexContext * context, tTextLexBuffer * data, tT
       switch( current ) {
       case LF:
         TOKEN( TEXTLEX_T_COMMENT );
+        TOKEN( TEXTLEX_T_END );
         SET_STATE( TEXTLEX_S_BASE16_START );
         break;
         
       case CR:
         TOKEN( TEXTLEX_T_COMMENT );
+        TOKEN( TEXTLEX_T_END );
         SET_STATE( TEXTLEX_S_BASE16_EOLLF );
         break;
 
@@ -565,27 +587,33 @@ tTextLexErr textlex_final( tTextLexContext * context ) {
   switch( context->state ) {
   case TEXTLEX_S_COMMENT:
     TOKEN( TEXTLEX_T_COMMENT );
+    TOKEN( TEXTLEX_T_END );
     break;
     
   case TEXTLEX_S_ANNOTATE:
     TOKEN( TEXTLEX_T_ANNOTATION );
+    TOKEN( TEXTLEX_T_END );
     break;
     
   case TEXTLEX_S_LITERAL:
     TOKEN( TEXTLEX_T_LITERAL );
+    TOKEN( TEXTLEX_T_END );
     break;
     
   case TEXTLEX_S_NUMBER:
     TOKEN( TEXTLEX_T_INTEGER );
+    TOKEN( TEXTLEX_T_END );
     break;
     
   case TEXTLEX_S_FLOAT:
   case TEXTLEX_S_EXPONENT:
     TOKEN( TEXTLEX_T_FLOAT );
+    TOKEN( TEXTLEX_T_END );
     break;
     
   case TEXTLEX_S_HEX:
     TOKEN( TEXTLEX_T_HEX );
+    TOKEN( TEXTLEX_T_END );
     break;
   }
   

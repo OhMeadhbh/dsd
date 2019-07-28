@@ -135,6 +135,7 @@ static tTextLexErr _token( tTextLexContext * context, tTextLexCount token ) {
 
 static unsigned char * token_name( unsigned int token ) {
   static unsigned char * tokens [] = {
+    "END",
     "COMMENT",
     "ANNOTATION",
     "LITERAL",
