@@ -34,6 +34,7 @@
   case 'B' : \
   case 'b' : \
   case 'C' : \
+  case 'c' : \
   case 'd' : \
   case 'D' : \
   case 'E' : \
