@@ -46,6 +46,16 @@ tTextLexBuffer * fixtures [] = {
   "*undefined@t$ABBA 12$CD#012345678901234567890",
   "*undefined@t$ABBA 12$CD#0123456789012345678901",
   "@m\n{\n\"one\" = \"two\"}",
+  "@thisisaverylongannotation @thisistwentycharsabc",
+  "*thisisaverylongliteral*thisistwentycharsabc",
+  "#this comment should be longer than 20 chars\n#thisistwentycharsabc",
+  "01234567890123456789 # Numbers can be as long as you need",
+  "-12.0123012301230123 # Floats can be pretty long too",
+  "-3.1345324532453E568 # Hey look, a big exponent!",
+  "$0123456789ABCDEF0123 $0123456789ABCDEF012345",
+  "'OTyqgu7Aca5sDCBzEoR23A==' 'gu7Aca5sDCBzEoR23A=='",
+  "\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\" \"ABCDEFGHIJKLMNOPQRS\\\"\" \"ABCDEFGHIJKLMNOPQRST\\\"\"",
+  "(00112233445566778899) ( AABBCCDDEEFF00112233 #COMMENTCOMMENTCOMETT\n 12 12) \"test\"",
   (unsigned char *) NULL
 };
 
