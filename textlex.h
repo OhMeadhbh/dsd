@@ -1,6 +1,6 @@
 /* textlex.h
 **
-** Copyright (C) 2017 Meadhbh S. Hamrick
+** Copyright (C) 2017, 2019 Meadhbh S. Hamrick
 ** Released under a BSD License; see license.txt for details.
 **
 ** This file provides the interface to the DSD Text Lexxer implemented in
@@ -12,25 +12,26 @@
 #ifndef _H_TEXTLEX
 #define _H_TEXTLEX
 
-/* Macro Definitions : Error Codes */
+/* Macro Definitions : Generic Error Codes */
 
-#define TEXTLEX_C_ERRORS         16
-#define TEXTLEX_E_NOERR           0
-#define TEXTLEX_E_ERROR           1
-#define TEXTLEX_E_EXIT            2
-#define TEXTLEX_E_START           3
-#define TEXTLEX_E_EOLLF           4
-#define TEXTLEX_E_ANNOTATE        5
-#define TEXTLEX_E_LITERAL         6
-#define TEXTLEX_E_NUMBER          7
-#define TEXTLEX_E_FLOAT_START     8
-#define TEXTLEX_E_FLOAT           9
-#define TEXTLEX_E_EXPONENT_START 10
-#define TEXTLEX_E_EXPONENT_NEG   11
-#define TEXTLEX_E_EXPONENT       12
-#define TEXTLEX_E_HEX            13
-#define TEXTLEX_E_STRING_ESCAPE  14
-#define TEXTLEX_E_BASE16_EOLLF   15
+#define TEXTLEX_E_NOERR           0 /* No Error */
+#define TEXTLEX_E_ERROR           1 /* Generic Internal Error */
+
+/* Macro Definitions : Error Codes Associated with Parsing States */
+
+#define TEXTLEX_E_START          64
+#define TEXTLEX_E_EOLLF          65
+#define TEXTLEX_E_ANNOTATE       67
+#define TEXTLEX_E_LITERAL        68
+#define TEXTLEX_E_NUMBER         69
+#define TEXTLEX_E_FLOAT_START    70
+#define TEXTLEX_E_FLOAT          71
+#define TEXTLEX_E_EXPONENT_START 72
+#define TEXTLEX_E_EXPONENT_NEG   73
+#define TEXTLEX_E_EXPONENT       74
+#define TEXTLEX_E_HEX            75
+#define TEXTLEX_E_STRING_ESCAPE  77
+#define TEXTLEX_E_BASE16_EOLLF   81
 
 /* Macro Definitions : Parser States */
 
@@ -109,9 +110,55 @@ typedef struct _text_lex_context {
 
 /* Function Prototypes */
 
+/* textlex_init()
+**
+** Pass this function a pointer to a textlex context and it will initialize it
+** for you. It does not allocate any memory, so you'll have to allocate space
+** for the context and the buffer before calling this function.
+**
+** After calling this function, you will want to set the token callback (and
+** probably also the overflow callback.)
+*/
+
 tTextLexErr textlex_init( tTextLexContext * context, tTextLexBuffer * buffer, tTextLexCount size );
+
+
+/* textlex_update()
+**
+** Pass a context, a pointer to DSD text to parse and the length of the text
+** and it will begin parsing, calling the token callback when a complete token
+** is found.
+**
+** You can call this function once, passing it a pointer to a complete DSD
+** "document," or you can break up the document into several pieces, calling
+** this function on each piece.
+**
+** If the document parsed is well formed, this function *should* return a
+** TEXTLEX_E_NOERR error code. If the document contains a syntax error, it
+** will return an error code > 64, associated with the state the lexxer was
+** in when it encountered the error.
+*/
+
 tTextLexErr textlex_update( tTextLexContext * context, tTextLexBuffer * data, tTextLexCount length );
+
+/* textlex_final()
+**
+** There are some corner cases where the lexxer can't figure out when an
+** input document stops. Call this function exactly once after processing all
+** input to tell the lexxer you're really stopping.
+*/
+
 tTextLexErr textlex_final( tTextLexContext * context );
+
+/* textlex_default_overflow()
+**
+** This is the default overflow handler that's setup with the call to
+** textlex_init(). It's made public here in case you change the overflow
+** handler and then want to change it back to the default.
+**
+** But you probably shouldn't do that.
+*/
+
 tTextLexErr textlex_default_overflow( tTextLexContext * context );
 
 #endif /* _H_TEXTLEX */
