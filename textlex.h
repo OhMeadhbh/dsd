@@ -16,6 +16,7 @@
 
 #define TEXTLEX_E_NOERR           0 /* No Error */
 #define TEXTLEX_E_ERROR           1 /* Generic Internal Error */
+#define TEXTLEX_E_MEMORY          2 /* For use by the overflow callback */
 
 /* Macro Definitions : Error Codes Associated with Parsing States */
 
@@ -121,7 +122,6 @@ typedef struct _text_lex_context {
 */
 
 tTextLexErr textlex_init( tTextLexContext * context, tTextLexBuffer * buffer, tTextLexCount size );
-
 
 /* textlex_update()
 **
