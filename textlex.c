@@ -1,6 +1,6 @@
 /* textlex.c
 **
-** Copyright (C) 2017 Meadhbh S. Hamrick
+** Copyright (C) 2017, 2019 Meadhbh S. Hamrick
 ** Released under a BSD License; see license.txt for details.
 **
 ** This file implements a DSD Text Lexxer. Please see textlex.h or README.md
