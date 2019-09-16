@@ -136,7 +136,7 @@ newlines embedded in them? It's TRUE!"
 # you finish the previous one:
 
 {
-  "success" = false
+  "success" = *false
   "error" = "The file was not found"
   "errno" = 2
 }
@@ -189,7 +189,7 @@ newlines embedded in them? It's TRUE!"
 {
   "integer minimum" = -128
   "integer maximum" =  127
-  "float minimum" = -5.96046E−8
+  "float minimum" = -5.96046E-8
   "float maximum" = 6.5504E4
 }
 
